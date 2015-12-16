@@ -392,7 +392,7 @@ $(function () {
     function init() {
         canvas.width = config.Config.cWidth;
         canvas.height = config.Config.cHeight;
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clearDepth(1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.viewport(0, 0, config.Config.cWidth, gl.canvas.height);
@@ -496,12 +496,24 @@ var component;
             this.RP = { x: 0, y: 0 };
             this.init = function () {
                 _this.q = new QtnIV();
-                _this._canvas.addEventListener('mousedown', _this.onDown);
+                //this._canvas.addEventListener('mousemove', this.onDown);
+                //this._canvas.addEventListener('mousedown', this.onDown);
             };
             this.onDown = function (e) {
                 e.preventDefault();
-                _this.RP['x'] = e.clientX;
-                _this.RP['y'] = e.clientY;
+                var cw = _this._canvas.width;
+                var ch = _this._canvas.height;
+                var wh = 1 / Math.sqrt(cw * cw + ch * ch);
+                var x = e.clientX - _this._canvas.offsetLeft - cw * 0.5;
+                var y = e.clientY - _this._canvas.offsetTop - ch * 0.5;
+                var sq = Math.sqrt(x * x + y * y);
+                var r = sq * 2.0 * Math.PI * wh;
+                if (sq != 1) {
+                    sq = 1 / sq;
+                    x *= sq;
+                    y *= sq;
+                }
+                _this.q.rotate(r, [y, x, 0.0], _this.qt);
             };
             this.init();
         }
@@ -634,7 +646,7 @@ var config;
         }
         Config.cWidth = 512;
         Config.cHeight = 512;
-        Config.videoPath = "common/movie/yama";
+        Config.videoPath = "common/movie/kuma";
         return Config;
     })();
     config.Config = Config;
