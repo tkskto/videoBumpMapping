@@ -488,6 +488,29 @@ $(function () {
 });
 var component;
 (function (component) {
+    var CameraController = (function () {
+        function CameraController(_model, _canvas) {
+            var _this = this;
+            this._model = _model;
+            this._canvas = _canvas;
+            this.RP = { x: 0, y: 0 };
+            this.init = function () {
+                _this.q = new QtnIV();
+                _this._canvas.addEventListener('mousedown', _this.onDown);
+            };
+            this.onDown = function (e) {
+                e.preventDefault();
+                _this.RP['x'] = e.clientX;
+                _this.RP['y'] = e.clientY;
+            };
+            this.init();
+        }
+        return CameraController;
+    })();
+    component.CameraController = CameraController;
+})(component || (component = {}));
+var component;
+(function (component) {
     var Player = (function () {
         function Player(_model, _video) {
             var _this = this;
@@ -611,7 +634,7 @@ var config;
         }
         Config.cWidth = 512;
         Config.cHeight = 512;
-        Config.videoPath = "common/movie/kuma";
+        Config.videoPath = "common/movie/yama";
         return Config;
     })();
     config.Config = Config;
@@ -890,3 +913,4 @@ var utils;
     })();
     utils.Utils = Utils;
 })(utils || (utils = {}));
+//# sourceMappingURL=run.js.map

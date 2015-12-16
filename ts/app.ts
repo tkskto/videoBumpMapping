@@ -24,7 +24,7 @@ $(function () {
         canvas.width = config.Config.cWidth;
         canvas.height = config.Config.cHeight;
 
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clearDepth(1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -35,6 +35,12 @@ $(function () {
                                       window['webkitCancelAnimationFrame'] ? window['webkitCancelAnimationFrame'] : window['msCancelAnimationFrame'];
 
         var stopBtn: component.PlayPauseBtn = new component.PlayPauseBtn(_model, $('#stop'));
+        var $switch: JQuery = $('.switch');
+
+        $switch.each(function () {
+            var $this = $(this);
+            var switcher: component.Switcher = new component.Switcher(_model, $this);
+        });
 
         q = new QtnIV();
         qt = q.identity(q.create());
@@ -63,6 +69,7 @@ $(function () {
         uniLocation[0] = gl.getUniformLocation(prg, 'mvpMatrix');
         uniLocation[1] = gl.getUniformLocation(prg, 'texture');
         uniLocation[2] = gl.getUniformLocation(prg, 'resolution');
+        uniLocation[3] = gl.getUniformLocation(prg, 'normalFlg');
 
         _model.setData('plane', {
             'location': attLocation,
@@ -90,7 +97,7 @@ $(function () {
         attStride[1] = 3;
         attStride[2] = 4;
         attStride[3] = 2;
-
+        
         var sData: Object = wgldLib.sphere(64, 64, 1.0, [0.7,1.0,0.7,1.0]);
         //var sData: Object = utils.Utils.Plane();
         var sPosition: WebGLBuffer = util.createVBO(sData['p']);
@@ -107,6 +114,7 @@ $(function () {
         uniLocation[3] = gl.getUniformLocation(prg, 'lightPosition');
         uniLocation[4] = gl.getUniformLocation(prg, 'eyePosition');
         uniLocation[5] = gl.getUniformLocation(prg, 'texture');
+        uniLocation[6] = gl.getUniformLocation(prg, 'bumpFlg');
 
         _model.setData('sphere', {
             'location': attLocation,

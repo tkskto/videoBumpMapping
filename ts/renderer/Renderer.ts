@@ -59,7 +59,8 @@ module renderer {
 
             this.fBuffer = this._util.createFBO(this.width, this.height, null);
 
-            this._model.addEventListener(Model.STATE_CHANGED, this.onStateChanged);
+            //this._model.addEventListener(Model.STATE_CHANGED, this.onStateChanged);
+            this.timer = requestAnimationFrame(this.render);
             
         }
 
@@ -106,6 +107,7 @@ module renderer {
             this.gl.uniformMatrix4fv(plane['uniform'][0], false, this.mMatrix);
             this.gl.uniform1i(plane['uniform'][1], 0);
             this.gl.uniform2fv(plane['uniform'][2], [this.width, this.height]);
+            this.gl.uniform1i(plane['uniform'][3], this._model.NormalFlg());
             this.gl.drawElements(this.gl.TRIANGLES, plane['length'], this.gl.UNSIGNED_SHORT, 0);
 		
             // フレームバッファのバインドを解除
@@ -140,6 +142,7 @@ module renderer {
             this.gl.uniform3fv(sphere['uniform'][3], this.lightPosition);
             this.gl.uniform3fv(sphere['uniform'][4], this.eyePosition);
             this.gl.uniform1i(sphere['uniform'][5], 0);
+            this.gl.uniform1i(sphere['uniform'][6], this._model.BumpFlg());
             this.gl.drawElements(this.gl.TRIANGLES, sphere['length'], this.gl.UNSIGNED_SHORT, 0);
             
             // コンテキストの再描画

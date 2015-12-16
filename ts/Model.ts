@@ -54,5 +54,25 @@ module model {
         public Data = (): Object => {
             return this._data;
         }
+
+        private _normalFlg: number = 0;
+
+        public setNormalFlg = ($flg:number) => {
+            this._normalFlg = $flg;
+        }
+
+        public NormalFlg = (): number => {
+            return this._normalFlg;
+        }
+
+        private _bumpFlg: number = 0;
+
+        public setBumpFlg = ($flg:number) => {
+            this._bumpFlg = $flg;
+        }
+
+        public BumpFlg = (): number => {
+            return this._bumpFlg;
+        }
     }
 }
